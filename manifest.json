@@ -18,6 +18,11 @@
         "matches": ["*://www.youtube.com/*"],
         "js": ["content.js"]
       }
+    ],
+    "web_accessible_resources": [
+      "bootstrap-icons-1.11.3/font/bootstrap-icons.css",
+      "bootstrap-icons-1.11.3/font/fonts/bootstrap-icons.woff",
+      "bootstrap-icons-1.11.3/font/fonts/bootstrap-icons.woff2"
     ]
   }
   

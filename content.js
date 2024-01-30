@@ -1,4 +1,8 @@
 // content.js
+const iconsLink = document.createElement('link');
+iconsLink.href = chrome.runtime.getURL('bootstrap-icons-1.11.3/font/bootstrap-icons.css');
+iconsLink.rel = 'stylesheet';
+document.head.appendChild(iconsLink);
 
 function createNotificationButton(controlBar) {
   if (!controlBar) {
@@ -8,8 +12,18 @@ function createNotificationButton(controlBar) {
   const notificationButton = document.createElement('button');
   notificationButton.classList.add('ytp-button');
   notificationButton.title = 'Set Notification';
-  notificationButton.innerHTML = '<svg height="100%" version="1.1" viewBox="0 0 36 36" width="100%"><path d="M18 2C9.4 2 2 9.4 2 18s7.4 16 16 16 16-7.4 16-16S26.6 2 18 2zm-1 27h-4v-4h4v4zm0-6h-4V9h4v14z"></path></svg>';
-  
+  var icon = document.createElement('i');
+  icon.className = 'bi-alarm-fill';
+
+  // Set the size of the icon
+  // Set the size of the icon
+  icon.style.fontSize = '24px';
+  icon.style.marginBottom = '50px';
+  icon.style.paddingBottom = '50px';
+
+// Add the icon to the button
+  notificationButton.appendChild(icon);
+
   notificationButton.addEventListener('click', function() {
     // Create a modal dialog
     const modal = document.createElement('div');
