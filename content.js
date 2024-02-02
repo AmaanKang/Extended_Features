@@ -36,22 +36,46 @@ function createNotificationButton(controlBar) {
   notificationButton.addEventListener('click', function() {
     // Create a modal dialog
     const modal = document.createElement('div');
-    modal.style.position = 'fixed';
-    modal.style.zIndex = '1';
-    modal.style.left = '0';
-    modal.style.top = '0';
-    modal.style.width = '100%';
-    modal.style.height = '100%';
-    modal.style.overflow = 'auto';
-    modal.style.backgroundColor = 'rgba(0,0,0,0.4)';
+    modal.className = 'modal';
+    modal.tabIndex = '-1';
+    modal.role = 'dialog';
 
-    // Create a modal content container
+    const modalDialog = document.createElement('div');
+    modalDialog.className = 'modal-dialog';
+    modalDialog.role = 'document';
+    
     const modalContent = document.createElement('div');
-    modalContent.style.backgroundColor = '#fefefe';
-    modalContent.style.margin = '15% auto';
-    modalContent.style.padding = '20px';
-    modalContent.style.border = '1px solid #888';
-    modalContent.style.width = '80%';
+    modalContent.className = 'modal-content';
+
+    const modalHeader = document.createElement('div');
+    modalHeader.className = 'modal-header';
+
+    const modalTitle = document.createElement('h5');
+    modalTitle.className = 'modal-title';
+    modalTitle.innerHTML = 'Set Notification';
+
+    const closeButton = document.createElement('button');
+    closeButton.className = 'close';
+    closeButton.ariaLabel = 'Close';
+    closeButton.dataDismiss = 'modal';
+
+    const exitButton = document.createElement('span');
+    exitButton.ariaHidden = 'true';
+
+    const modalBody = document.createElement('div');
+    modalBody.className = 'modal-body';
+
+    const modalFooter = document.createElement('div');
+    modalFooter.className = 'modal-footer';
+
+    const buttonSave = document.createElement('button');
+    buttonSave.className = 'btn btn-primary';
+    buttonSave.textContent = 'Save changes';
+    
+    const buttonClose = document.createElement('button');
+    buttonClose.className = 'btn btn-secondary';
+    buttonClose.dataDismiss = 'modal';
+    buttonClose.textContent = 'Close';
 
     // Create a date picker
     const datePicker = document.createElement('input');
@@ -61,26 +85,32 @@ function createNotificationButton(controlBar) {
     const timePicker = document.createElement('input');
     timePicker.type = 'time';
 
-    // Create confirm and cancel buttons
-    const confirmButton = document.createElement('button');
-    confirmButton.textContent = 'Confirm';
-    const cancelButton = document.createElement('button');
-    cancelButton.textContent = 'Cancel';
 
     // Append the date picker, time picker, and buttons to the modal content container
-    modalContent.appendChild(datePicker);
-    modalContent.appendChild(timePicker);
-    modalContent.appendChild(confirmButton);
-    modalContent.appendChild(cancelButton);
+    modalBody.appendChild(datePicker);
+    modalBody.appendChild(timePicker);
 
-    // Append the modal content container to the modal dialog
-    modal.appendChild(modalContent);
+    modalFooter.appendChild(buttonSave);
+    modalFooter.appendChild(buttonClose);
+
+    closeButton.appendChild(exitButton);
+
+    modalHeader.appendChild(closeButton);
+    modalHeader.appendChild(modalTitle);
+
+    modalContent.appendChild(modalHeader);
+    modalContent.appendChild(modalBody);
+    modalContent.appendChild(modalFooter);
+
+    modalDialog.appendChild(modalContent);
+
+    modal.appendChild(modalDialog);
 
     // Append the modal dialog to the body
     document.body.appendChild(modal);
 
     // Implement your notification setting logic here
-    confirmButton.addEventListener('click', function() {
+    buttonSave.addEventListener('click', function() {
       const dateTime = `${datePicker.value} ${timePicker.value}`;
       alert(`Notification set for ${dateTime}`);
       // Remove the modal dialog
@@ -88,7 +118,7 @@ function createNotificationButton(controlBar) {
     });
 
     // Remove the modal dialog when the cancel button is clicked
-    cancelButton.addEventListener('click', function() {
+    buttonClose.addEventListener('click', function() {
       document.body.removeChild(modal);
     });
   });
