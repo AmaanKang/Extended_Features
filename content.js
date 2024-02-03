@@ -106,6 +106,9 @@ function createNotificationButton(controlBar) {
 
     modal.appendChild(modalDialog);
 
+    modal.id = 'myModal';
+    $('#myModal').modal('show');
+
     // Append the modal dialog to the body
     document.body.appendChild(modal);
 
