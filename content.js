@@ -39,6 +39,7 @@ function createNotificationButton(controlBar) {
     modal.className = 'modal';
     modal.tabIndex = '-1';
     modal.role = 'dialog';
+    modal.id = 'myModal';
 
     const modalDialog = document.createElement('div');
     modalDialog.className = 'modal-dialog';
@@ -105,12 +106,10 @@ function createNotificationButton(controlBar) {
     modalDialog.appendChild(modalContent);
 
     modal.appendChild(modalDialog);
-
-    modal.id = 'myModal';
-    $('#myModal').modal('show');
-
-    // Append the modal dialog to the body
     document.body.appendChild(modal);
+    
+    var myModal = new bootstrap.Modal(document.getElementById('myModal'));
+    myModal.show();
 
     // Implement your notification setting logic here
     buttonSave.addEventListener('click', function() {
