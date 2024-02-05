@@ -16,12 +16,11 @@
     "content_scripts": [
       {
         "matches": ["*://www.youtube.com/*"],
-        "js": ["bootstrap-5.3.2-dist/js/bootstrap.js","bootstrap-5.3.2-dist/js/bootstrap.min.js","jquery/jquery-3.7.1.min.js","content.js"],
+        "js": ["bootstrap-5.3.2-dist/js/bootstrap.min.js","jquery/jquery-3.7.1.min.js","content.js"],
         "css": ["bootstrap-5.3.2-dist/css/bootstrap.min.css"]
       }
     ],
     "web_accessible_resources": [
-      "bootstrap-5.3.2-dist/js/bootstrap.js",
       "bootstrap-5.3.2-dist/js/bootstrap.min.js",
       "jquery/jquery-3.7.1.min.js",
       "bootstrap-5.3.2-dist/css/bootstrap.min.css"
