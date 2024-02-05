@@ -1,3 +1,4 @@
+//When the Schedule Button is clicked, the following script is played which calls for the browser action.
 document.addEventListener('DOMContentLoaded', function() {
   var scheduleButton = document.getElementById('scheduleButton');
   scheduleButton.addEventListener('click', function() {
