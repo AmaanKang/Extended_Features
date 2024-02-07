@@ -40,7 +40,7 @@ function createNotificationButton(controlBar) {
     modal.id = 'myModal';
 
     const modalDialog = document.createElement('div');
-    modalDialog.className = 'modal-dialog';
+    modalDialog.className = 'modal-dialog modal-dialog-centered';
     modalDialog.role = 'document';
     
     const modalContent = document.createElement('div');
@@ -93,8 +93,9 @@ function createNotificationButton(controlBar) {
 
     closeButton.appendChild(exitButton);
 
-    modalHeader.appendChild(closeButton);
+  
     modalHeader.appendChild(modalTitle);
+    modalHeader.appendChild(closeButton);
 
     modalContent.appendChild(modalHeader);
     modalContent.appendChild(modalBody);
@@ -119,6 +120,7 @@ function createNotificationButton(controlBar) {
 
     // Remove the modal dialog when the cancel button is clicked
     buttonClose.addEventListener('click', function() {
+      myModal.dispose();
       document.body.removeChild(modal);
     });
   });
