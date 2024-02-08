@@ -52,6 +52,7 @@ function createNotificationButton(controlBar) {
     const modalTitle = document.createElement('h5');
     modalTitle.className = 'modal-title';
     modalTitle.innerHTML = 'Set Notification';
+    modalTitle.style.fontSize = '25px';
 
     const closeButton = document.createElement('button');
     closeButton.className = 'close';
@@ -59,7 +60,10 @@ function createNotificationButton(controlBar) {
     closeButton.dataDismiss = 'modal';
 
     const exitButton = document.createElement('span');
-    exitButton.ariaHidden = 'true';
+    exitButton.textContent = 'x';
+    exitButton.style.fontSize = '20px';
+    exitButton.style.cursor = 'pointer';
+  
 
     const modalBody = document.createElement('div');
     modalBody.className = 'modal-body';
@@ -70,19 +74,22 @@ function createNotificationButton(controlBar) {
     const buttonSave = document.createElement('button');
     buttonSave.className = 'btn btn-primary';
     buttonSave.textContent = 'Save changes';
+    buttonSave.style.fontSize = '20px';
     
     const buttonClose = document.createElement('button');
     buttonClose.className = 'btn btn-secondary';
-    buttonClose.dataDismiss = 'modal';
     buttonClose.textContent = 'Close';
+    buttonClose.style.fontSize = '20px';
 
     // Create a date picker
     const datePicker = document.createElement('input');
     datePicker.type = 'date';
+    datePicker.style.fontSize = '20px';
 
     // Create a time picker
     const timePicker = document.createElement('input');
     timePicker.type = 'time';
+    timePicker.style.fontSize = '20px';
 
     // Append the date picker, time picker, and buttons to the modal body
     modalBody.appendChild(datePicker);
@@ -110,16 +117,46 @@ function createNotificationButton(controlBar) {
     var myModal = new bootstrap.Modal(document.getElementById('myModal'));
     myModal.show();
 
+    myModal._element.addEventListener('hidden.bs.modal', function(){
+      const backdrop = document.querySelector('.modal-backdrop');
+      if (backdrop) {
+        backdrop.parentNode.removeChild(backdrop);
+      }
+    });
+
     // Implement your notification setting logic here
-    buttonSave.addEventListener('click', function() {
-      const dateTime = `${datePicker.value} ${timePicker.value}`;
-      alert(`Notification set for ${dateTime}`);
-      // Remove the modal dialog
-      document.body.removeChild(modal);
+    buttonSave.addEventListener('click', function(event) {
+      event.preventDefault();
+
+      // Check if the date and time picker are empty
+      if (!datePicker.value) {
+        // If they are, change their border color to red
+        datePicker.style.borderColor = 'red';
+      }else if(!timePicker.value) {
+        timePicker.style.borderColor = 'red';
+      } else {
+        // If they are not, reset their border color
+        datePicker.style.borderColor = timePicker.style.borderColor = 'black';
+        const dateTime = `${datePicker.value} ${timePicker.value}`;
+        alert(`Notification set for ${dateTime}`);
+        // Remove the modal dialog
+        myModal.dispose();
+        document.body.removeChild(modal);
+        chrome.runtime.sendMessage({ dateTime: dateTime }, function(response) {
+          console.log(response.message);
+        });
+      }
+
+      
     });
 
     // Remove the modal dialog when the cancel button is clicked
     buttonClose.addEventListener('click', function() {
+      myModal.dispose();
+      document.body.removeChild(modal);
+    });
+
+    exitButton.addEventListener('click', function() {
       myModal.dispose();
       document.body.removeChild(modal);
     });
@@ -132,7 +169,6 @@ function createNotificationButton(controlBar) {
 function checkControls() {
   const controlsInterval = setInterval(() => {
     const controlBar = document.querySelector('.ytp-right-controls');
-    console.log(controlBar);
     if (controlBar) {
       clearInterval(controlsInterval);
       createNotificationButton(controlBar);
@@ -145,7 +181,6 @@ document.addEventListener('DOMContentLoaded', checkControls);
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   if (request.action === 'scheduleVideo') {
-    console.log("Clicked on Schedule");
     checkControls();
   }
 });
