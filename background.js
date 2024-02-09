@@ -21,8 +21,23 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
         type: 'basic',
         iconUrl: '32.png',
         title: 'YouTube Notification',
-        message: 'It\'s time to watch YouTube! URL: ' + data.url
+        message: 'It\'s time to watch YouTube! Click to open.'
+      }, function(notificationId) {
+        // Store the URL with the notification ID
+        chrome.storage.local.set({ [notificationId]: data.url });
       });
+      
+      chrome.notifications.onClicked.addListener(function(notificationId) {
+        // Retrieve the URL associated with the notification ID
+        chrome.storage.local.get(notificationId, function(data) {
+          // Open a new tab with the URL
+          chrome.tabs.create({ url: data[notificationId] });
+      
+          // Clear the URL from storage
+          chrome.storage.local.remove(notificationId);
+        });
+      });
+      chrome.storage.local.remove('url');
     });
   }
 });
