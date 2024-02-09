@@ -137,14 +137,16 @@ function createNotificationButton(controlBar) {
       } else {
         // If they are not, reset their border color
         datePicker.style.borderColor = timePicker.style.borderColor = 'black';
-        const dateTime = `${datePicker.value} ${timePicker.value}`;
+        const dateTime = new Date(`${datePicker.value}T${timePicker.value}`);
+
+        const url = window.location.href;
+        // Send a message to the background script to schedule the alarm
+        chrome.runtime.sendMessage({ dateTime: dateTime.toISOString(), url:url});
         alert(`Notification set for ${dateTime}`);
         // Remove the modal dialog
         myModal.dispose();
         document.body.removeChild(modal);
-        chrome.runtime.sendMessage({ dateTime: dateTime }, function(response) {
-          console.log(response.message);
-        });
+       
       }
 
       
@@ -165,22 +167,23 @@ function createNotificationButton(controlBar) {
   controlBar.appendChild(notificationButton);
 }
 
-// Function to check if the video player controls are present
-function checkControls() {
-  const controlsInterval = setInterval(() => {
-    const controlBar = document.querySelector('.ytp-right-controls');
-    if (controlBar) {
-      clearInterval(controlsInterval);
-      createNotificationButton(controlBar);
+// Create a MutationObserver to watch for changes in the DOM
+const observer = new MutationObserver(function(mutations) {
+  mutations.forEach(function(mutation) {
+    // Check if nodes were added
+    if (mutation.addedNodes.length) {
+      // Get the control bar
+      const controlBar = document.querySelector('.ytp-right-controls');
+
+      // If the control bar exists and doesn't already have the notification button, create it
+      if (controlBar && !controlBar.querySelector('.bi-alarm-fill')) {
+        createNotificationButton(controlBar);
+      }
     }
-  }, 1000); // Check every second
-}
-
-// Execute the function when the DOM is ready
-document.addEventListener('DOMContentLoaded', checkControls);
-
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  if (request.action === 'scheduleVideo') {
-    checkControls();
-  }
+  });
 });
+
+// Start observing the body for changes in the child list
+observer.observe(document.body, { childList: true, subtree: true });
+
+

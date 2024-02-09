@@ -3,7 +3,7 @@
     "name": "YouTube Scheduler",
     "version": "1.0",
     "description": "Schedule YouTube video notifications",
-    "permissions": ["storage", "activeTab", "notifications"],
+    "permissions": ["storage", "activeTab", "notifications","alarms"],
     "browser_action": {
       "default_icon": {
         "16": "16.png",
@@ -12,6 +12,10 @@
       },
       "default_title": "YouTube Scheduler",
       "default_popup": "popup.html"
+    },
+    "background": {
+      "scripts": ["background.js"],
+      "persistent": false
     },
     "content_scripts": [
       {
