@@ -37,6 +37,7 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
           chrome.storage.local.remove(notificationId);
         });
       });
+      // Clear the URL from storage
       chrome.storage.local.remove('url');
     });
   }

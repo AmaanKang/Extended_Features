@@ -146,10 +146,7 @@ function createNotificationButton(controlBar) {
         // Remove the modal dialog
         myModal.dispose();
         document.body.removeChild(modal);
-       
       }
-
-      
     });
 
     // Remove the modal dialog when the cancel button is clicked
@@ -158,6 +155,7 @@ function createNotificationButton(controlBar) {
       document.body.removeChild(modal);
     });
 
+    // Remove the modal dialog when the close button is clicked
     exitButton.addEventListener('click', function() {
       myModal.dispose();
       document.body.removeChild(modal);
