@@ -5,10 +5,15 @@ function createNotificationButton(controlBar) {
   if (!controlBar) {
     return;
   }
+
+  controlBar.style.display = 'flex';
+  controlBar.style.alignItems = 'center';
    //Create the notification button element
   const notificationButton = document.createElement('button');
   notificationButton.classList.add('ytp-button');
   notificationButton.title = 'Set Notification';
+  notificationButton.style.marginTop = '6%';
+  notificationButton.style.marginLeft = '2%';
 
   //Create the svg for the notification button
   var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -16,7 +21,7 @@ function createNotificationButton(controlBar) {
   svg.setAttribute('height','100%');
   svg.setAttribute('fill','currentColor');
   svg.setAttribute('class','bi bi-alarm-fill');
-  //svg.setAttribute('viewBox','0 0 36 36');
+  svg.setAttribute('viewBox','0 0 36 36');
 
   var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
   path.setAttribute('d','M6 .5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1H9v1.07a7.001 7.001 0 0 1 3.274 12.474l.601.602a.5.5 0 0 1-.707.708l-.746-.746A6.97 6.97 0 0 1 8 16a6.97 6.97 0 0 1-3.422-.892l-.746.746a.5.5 0 0 1-.707-.708l.602-.602A7.001 7.001 0 0 1 7 2.07V1h-.5A.5.5 0 0 1 6 .5m2.5 5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9zM.86 5.387A2.5 2.5 0 1 1 4.387 1.86 8.04 8.04 0 0 0 .86 5.387M11.613 1.86a2.5 2.5 0 1 1 3.527 3.527 8.04 8.04 0 0 0-3.527-3.527');
@@ -26,9 +31,9 @@ function createNotificationButton(controlBar) {
 
   svg.appendChild(useStyle);
   svg.appendChild(path);
-  svg.paddingTop = '50px';
 
   notificationButton.appendChild(svg);
+  controlBar.appendChild(notificationButton);
 
   //When notification button is clicked, then following method should play.
   notificationButton.addEventListener('click', function() {
@@ -85,11 +90,13 @@ function createNotificationButton(controlBar) {
     const datePicker = document.createElement('input');
     datePicker.type = 'date';
     datePicker.style.fontSize = '20px';
+    datePicker.style.paddingLeft = '4%';
 
     // Create a time picker
     const timePicker = document.createElement('input');
     timePicker.type = 'time';
     timePicker.style.fontSize = '20px';
+    timePicker.style.paddingLeft = '4%';
 
     // Append the date picker, time picker, and buttons to the modal body
     modalBody.appendChild(datePicker);
@@ -161,8 +168,6 @@ function createNotificationButton(controlBar) {
       document.body.removeChild(modal);
     });
   });
-
-  controlBar.appendChild(notificationButton);
 }
 
 // Create a MutationObserver to watch for changes in the DOM
