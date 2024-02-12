@@ -189,4 +189,22 @@ const observer = new MutationObserver(function(mutations) {
 // Start observing the body for changes in the child list
 observer.observe(document.body, { childList: true, subtree: true });
 
+//Create a search bar below the player on youtube window
+// Create the search bar
+const searchBar = document.createElement('input');
+searchBar.type = 'text';
+searchBar.placeholder = 'Search comments...';
+
+// Insert the search bar under the "Add a comment" field
+const commentBox = document.querySelector('.ytd-comments-header-renderer');
+commentBox.parentNode.insertBefore(searchBar, commentBox.nextSibling);
+
+// Listen for the 'input' event on the search bar
+searchBar.addEventListener('input', function(event) {
+  // Get the search query
+  const query = event.target.value;
+
+  // Fetch and filter the comments...
+});
+
 
