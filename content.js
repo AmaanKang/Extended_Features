@@ -180,11 +180,15 @@ function createSearchComments(commentBox){
 
   // Create a Search Bar Div
   const searchSection = document.createElement('div');
+  searchSection.style.marginTop = '2%';
 
   // Create the search bar
   const searchBar = document.createElement('input');
   searchBar.type = 'text';
   searchBar.placeholder = 'Search comments...';
+  searchBar.style.fontSize = '15px';
+  searchBar.style.width = '100%';
+  searchBar.style.paddingLeft = '2%';
 
   searchSection.appendChild(searchBar);
   // Insert the search bar at the beginning of the comments section
