@@ -202,10 +202,15 @@ function createSearchComments(commentBox){
   searchBar.addEventListener('input', function(event) {
     // Get the search query
     const query = event.target.value;
-    const allComments = document.querySelectorAll('#content-text');
+    const allComments = document.querySelectorAll('ytd-comment-thread-renderer');
+    console.log(allComments.length);
     allComments.forEach(function(comment) {
-      if(comment.textContent.toLowerCase().includes(query.toLowerCase())){
-        console.log(comment.textContent);
+      const commentContent = comment.querySelector('#content-text');
+      if(commentContent.textContent.toLowerCase().includes(query.toLowerCase())){
+        comment.style.display = '';
+        console.log(comment.toString());
+      }else{
+        comment.style.display = 'none';
       }
     });
     console.log('**********************************************************************************');
