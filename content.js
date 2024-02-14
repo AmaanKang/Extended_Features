@@ -202,7 +202,13 @@ function createSearchComments(commentBox){
   searchBar.addEventListener('input', function(event) {
     // Get the search query
     const query = event.target.value;
-
+    const allComments = document.querySelectorAll('#content-text');
+    allComments.forEach(function(comment) {
+      if(comment.textContent.toLowerCase().includes(query.toLowerCase())){
+        console.log(comment.textContent);
+      }
+    });
+    console.log('**********************************************************************************');
     // Fetch and filter the comments...
   });
 }
