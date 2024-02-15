@@ -172,6 +172,21 @@ function createNotificationButton(controlBar) {
   });
 }
 
+function filterComments(query){
+  const allComments = document.querySelectorAll('ytd-comment-thread-renderer');
+  console.log(allComments.length);
+  allComments.forEach(function(comment) {
+    const commentContent = comment.querySelector('#content-text');
+    if(commentContent.textContent.toLowerCase().includes(query.toLowerCase())){
+      comment.style.display = '';
+      console.log(comment.toString());
+    }else{
+      comment.style.display = 'none';
+    }
+  });
+
+}
+
 function createSearchComments(commentBox){
   // Check if the search bar already exists
   if (commentBox.querySelector('input[type="text"]')) {
@@ -202,19 +217,7 @@ function createSearchComments(commentBox){
   searchBar.addEventListener('input', function(event) {
     // Get the search query
     const query = event.target.value;
-    const allComments = document.querySelectorAll('ytd-comment-thread-renderer');
-    console.log(allComments.length);
-    allComments.forEach(function(comment) {
-      const commentContent = comment.querySelector('#content-text');
-      if(commentContent.textContent.toLowerCase().includes(query.toLowerCase())){
-        comment.style.display = '';
-        console.log(comment.toString());
-      }else{
-        comment.style.display = 'none';
-      }
-    });
-    console.log('**********************************************************************************');
-    // Fetch and filter the comments...
+    filterComments(query);
   });
 }
 
@@ -241,6 +244,16 @@ const observer = new MutationObserver(function(mutations) {
 // Start observing the body for changes in the child list
 observer.observe(document.body, { childList: true, subtree: true });
 
+const commentsObserver = new MutationObserver(function() {
+  // When a change is detected, apply the filter
+  filterComments(searchBar.value);
+});
+
+// Start observing the comments section
+const commentsContainer = document.querySelector('#contents');
+if (commentsContainer) {
+  commentsObserver.observe(commentsContainer, { childList: true, subtree: true });
+}
 
 
 
