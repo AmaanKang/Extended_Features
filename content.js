@@ -174,16 +174,25 @@ function createNotificationButton(controlBar) {
 
 function filterComments(query){
   const allComments = document.querySelectorAll('ytd-comment-thread-renderer');
-  console.log(allComments.length);
+  const countText = document.querySelector('#count');
+  const wholeCountText = countText.querySelector('yt-formatted-string');
+  const countSpan = document.createElement('span');
+  countSpan.className = 'style-scope yt-formatted-string';
+  countSpan.dir = 'auto';
+  var count = 0;
   allComments.forEach(function(comment) {
     const commentContent = comment.querySelector('#content-text');
     if(commentContent.textContent.toLowerCase().includes(query.toLowerCase())){
       comment.style.display = '';
-      console.log(comment.toString());
+      count++;
     }else{
       comment.style.display = 'none';
     }
   });
+  if(wholeCountText){
+    countSpan.innerHTML = count;
+    wholeCountText.appendChild(countSpan);
+  }
 
 }
 
@@ -214,10 +223,8 @@ function createSearchComments(commentBox){
   }
 
   // Listen for the 'input' event on the search bar
-  searchBar.addEventListener('input', function(event) {
-    // Get the search query
-    const query = event.target.value;
-    filterComments(query);
+  searchBar.addEventListener('input', function() {
+    filterComments(searchBar.value);
   });
 }
 
@@ -244,17 +251,23 @@ const observer = new MutationObserver(function(mutations) {
 // Start observing the body for changes in the child list
 observer.observe(document.body, { childList: true, subtree: true });
 
-const commentsObserver = new MutationObserver(function() {
-  // When a change is detected, apply the filter
-  filterComments(searchBar.value);
+const commentsObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    // When a comment becomes visible in the viewport, apply the filter
+    if (entry.isIntersecting) {
+      filterComments(searchBar.value);
+    }
+  });
+}, {
+  root: null, // Use the viewport as the root
+  threshold: 0.1 // Call the callback when at least 10% of the comment is visible
 });
 
 // Start observing the comments section
-const commentsContainer = document.querySelector('#contents');
-if (commentsContainer) {
-  commentsObserver.observe(commentsContainer, { childList: true, subtree: true });
-}
-
+const allComments = document.querySelectorAll('ytd-comment-thread-renderer');
+allComments.forEach(function(comment) {
+  commentsObserver.observe(comment);
+});
 
 
 
