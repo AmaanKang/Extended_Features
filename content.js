@@ -172,6 +172,7 @@ function createNotificationButton(controlBar) {
   });
 }
 
+//Filter the loaded comments under a youtube video
 function filterComments(query){
   const allComments = document.querySelectorAll('ytd-comment-thread-renderer');
   const countText = document.querySelector('#count');
@@ -196,6 +197,7 @@ function filterComments(query){
 
 }
 
+//Create the search bar to type in the keyword and search comments
 function createSearchComments(commentBox){
   // Check if the search bar already exists
   if (commentBox.querySelector('input[type="text"]')) {
@@ -251,6 +253,7 @@ const observer = new MutationObserver(function(mutations) {
 // Start observing the body for changes in the child list
 observer.observe(document.body, { childList: true, subtree: true });
 
+// Create the IntersectionObserver to watch for comments
 const commentsObserver = new IntersectionObserver(function(entries) {
   entries.forEach(function(entry) {
     // When a comment becomes visible in the viewport, apply the filter
@@ -260,7 +263,7 @@ const commentsObserver = new IntersectionObserver(function(entries) {
   });
 }, {
   root: null, // Use the viewport as the root
-  threshold: 0.1 // Call the callback when at least 10% of the comment is visible
+  threshold: 0.05 // Call the callback when at least 10% of the comment is visible
 });
 
 // Start observing the comments section
