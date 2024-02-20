@@ -34,6 +34,16 @@ function createNotificationButton(controlBar) {
   notificationButton.appendChild(svg);
   controlBar.appendChild(notificationButton);
 
+  // Get the player element
+  const player = document.querySelector('.html5-video-container');
+
+  // Adjust the styles as needed
+  if (player) {
+    player.style.width = '100%'; // Set the width to 100%
+    player.style.margin = '0'; // Remove any margin
+    player.style.padding = '0'; // Remove any padding
+  }
+
   //When notification button is clicked, then following method should play.
   notificationButton.addEventListener('click', function() {
     // Create a modal dialog
@@ -263,7 +273,7 @@ const commentsObserver = new IntersectionObserver(function(entries) {
   });
 }, {
   root: null, // Use the viewport as the root
-  threshold: 0.05 // Call the callback when at least 10% of the comment is visible
+  threshold: 0.05 // Call the callback when at least 5% of the comment is visible
 });
 
 // Start observing the comments section
