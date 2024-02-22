@@ -1,5 +1,6 @@
 # Video Notification Scheduler
 A youtube extension to schedule the watch time for specific videos. User gets a notification as per the scheduled time.
+
 ![image](https://github.com/AmaanKang/Video_Notification_Scheduler/assets/77933148/95a2d640-12dc-45a3-a91e-32d295c1ac54)
 
 ![image](https://github.com/AmaanKang/Video_Notification_Scheduler/assets/77933148/530db72b-a136-4bb0-9cf8-c29201c28543)
