@@ -1,8 +1,8 @@
 {
     "manifest_version": 2,
-    "name": "YouTube Scheduler",
+    "name": "Extended Features",
     "version": "1.0",
-    "description": "Schedule YouTube video notifications",
+    "description": "Extra features for Youtube on Chrome",
     "permissions": ["storage", "activeTab", "notifications","alarms"],
     "browser_action": {
       "default_icon": {

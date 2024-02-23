@@ -245,6 +245,17 @@ const observer = new MutationObserver(function(mutations) {
   mutations.forEach(function(mutation) {
     // Check if nodes were added
     if (mutation.addedNodes.length) {
+      //Disable shorts if the user allows it
+      chrome.runtime.onMessage.addListener(
+        function(request, sender, sendResponse) {
+          if (request.shorts == "disableShort"){
+            let shortsElement = document.querySelector('ytd-reel-shelf-renderer');
+            if (shortsElement) {
+              shortsElement.parentNode.removeChild(shortsElement);
+              sendResponse({farewell: "goodbye"});
+            }
+          }
+        });
       const commentsElement = document.querySelector('ytd-comments#comments');
       if (commentsElement) {
           createSearchComments(commentsElement);
