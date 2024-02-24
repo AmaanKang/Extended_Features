@@ -248,13 +248,15 @@ const observer = new MutationObserver(function(mutations) {
       //Disable shorts if the user allows it
       chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
-          if (request.shorts == "disableShort"){
             let shortsElement = document.querySelector('ytd-reel-shelf-renderer');
             if (shortsElement) {
-              shortsElement.parentNode.removeChild(shortsElement);
-              sendResponse({farewell: "goodbye"});
-            }
+              if (request.shorts === "Yes") {
+                  shortsElement.style.display = "none";
+              } else {
+                  shortsElement.style.display = "block";
+              }
           }
+          
         });
       const commentsElement = document.querySelector('ytd-comments#comments');
       if (commentsElement) {
