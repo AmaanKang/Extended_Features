@@ -1,5 +1,7 @@
 // content.js
 
+
+//Create notification button on youtube player
 function createNotificationButton(controlBar) {
   if (!controlBar) {
     return;
@@ -245,19 +247,11 @@ const observer = new MutationObserver(function(mutations) {
   mutations.forEach(function(mutation) {
     // Check if nodes were added
     if (mutation.addedNodes.length) {
-      //Disable shorts if the user allows it
-      chrome.runtime.onMessage.addListener(
-        function(request, sender, sendResponse) {
-            let shortsElement = document.querySelector('ytd-reel-shelf-renderer');
-            if (shortsElement) {
-              if (request.shorts === "Yes") {
-                  shortsElement.style.display = "none";
-              } else {
-                  shortsElement.style.display = "block";
-              }
-          }
-          
-        });
+      //Disable shorts
+      let shortsElement = document.querySelector('ytd-reel-shelf-renderer');
+      if (shortsElement) {
+        shortsElement.style.display = "none";
+      }
       const commentsElement = document.querySelector('ytd-comments#comments');
       if (commentsElement) {
           createSearchComments(commentsElement);
